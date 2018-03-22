@@ -25,7 +25,7 @@
 
 	using namespace std;
 	string s;
-	void *p1(void *argv){
+	void *p1(void *argv){		 			//write the message to the server
 		int flag=0;
 		char *path="/tmp/server";
 		mkfifo(path,0666);
@@ -55,7 +55,7 @@
 		return NULL;
 	}
 
-	void *p2(void *argv){
+	void *p2(void *argv){					//read from the server
 		string pathname="/tmp/"+s;
 		char path[pathname.length()];
 		strcpy(path,pathname.c_str());

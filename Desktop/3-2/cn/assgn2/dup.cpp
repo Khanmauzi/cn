@@ -21,7 +21,7 @@
 
 	int main(){
 		
-		int filedisc=open("abc.txt",O_WRONLY | O_APPEND);
+		int filedisc=open("dup.txt",O_WRONLY | O_APPEND);
 		if(filedisc<0){
 			cout<<"fail to open the file "<<endl;
 		}

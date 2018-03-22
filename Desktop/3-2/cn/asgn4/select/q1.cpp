@@ -46,6 +46,8 @@ string function3(void){
 void *f1(void *arg){
 	int n=*((int *)arg);
 	//cout<<"n : "<<n<<endl;
+	int t=fork();
+	if(t==0){
 		if(n==1){
 				char *path[]={"./process1",NULL};
 				execvp(path[0],path);
@@ -57,6 +59,7 @@ void *f1(void *arg){
 			else{
 				write(wfd2,"invalid input \n",16);
 			}
+		}
 			
 }
 int main(){

@@ -63,7 +63,7 @@ int main(int arg,char *argv[]){
 		perror("bind ");
 		exit(-1);
 	}
-	getsockname(sfd,(struct sockaddr*)&server,&len);
+	getsockname(sfd,(struct sockaddr*)&server,&len);					//to get server ip address and port numbr
 	cout<<" Server address "<<inet_ntoa(server.sin_addr)<<ntohs(server.sin_port)<<endl;
 	if(listen(sfd,5)==-1){
 		perror("listen");
@@ -78,7 +78,7 @@ int main(int arg,char *argv[]){
 		}
 		else{
 			cout<<"connection established from "<<inet_ntoa(client.sin_addr)<<ntohs(client.sin_port)<<endl;
-			getpeername(cfd,(struct sockaddr*)&client,&clen);
+			getpeername(cfd,(struct sockaddr*)&client,&clen);				//to get the client details
 			cout<<"connection established from "<<inet_ntoa(client.sin_addr)<<ntohs(client.sin_port)<<endl;
 			int t=fork();
 
