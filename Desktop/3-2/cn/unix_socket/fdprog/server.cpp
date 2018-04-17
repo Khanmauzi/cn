@@ -78,7 +78,7 @@ using namespace std;
 int main(){
 	int  usfd;
 	struct sockaddr_un userv_addr,ucli_addr;
-  	unsigned int userv_len,ucli_len;
+  unsigned int userv_len,ucli_len;
 
 	usfd = socket(AF_UNIX , SOCK_STREAM , 0);
 	perror("socket");
@@ -101,7 +101,7 @@ int main(){
 	int nusfd;
 	if((nusfd=accept(usfd, (struct sockaddr *)&ucli_addr, &ucli_len))==-1){
 		//perror("accept");
-		exit(-1);
+		continue;
 	}
 	cout<<"connected from client "<<endl;
 	int t=fork();

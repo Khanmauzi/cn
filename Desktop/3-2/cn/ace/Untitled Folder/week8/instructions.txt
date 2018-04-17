@@ -1,0 +1,4 @@
+1) sudo apt-get install libace-dev
+2) Write your program
+3) Compile using
+c++ program.cpp /usr/lib/libACE.so -o program

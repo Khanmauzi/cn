@@ -59,8 +59,8 @@ int send_fd(int socket, int fd_to_send)
  
 
  int main(){
- 	int usfd;
-	struct sockaddr_un userv_addr;
+ 	  int usfd;
+	  struct sockaddr_un userv_addr;
   	unsigned int userv_len,ucli_len;
 
   	usfd = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -80,5 +80,6 @@ int send_fd(int socket, int fd_to_send)
 	else printf("\nconnect succesful");
 	int fd=open("abc.txt",O_RDONLY);
 	send_fd(usfd,fd);
+  while(1);
 	return 0;
  }

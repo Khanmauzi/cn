@@ -20,7 +20,7 @@
 using namespace std;
 void *read(void *arg){
 	int rfd=*((int *)arg);
-	while(1){
+	while(rfd){
 		char buffer[100];
 		recv(rfd,buffer,100,0);
 		cout<<"mesg : "<<buffer<<endl;
@@ -29,7 +29,7 @@ void *read(void *arg){
 }
 void *write(void *arg){
 	int wfd=*((int *)arg);
-	while(1){
+	while(wfd){
 		char buffer[100];
 		string s;
 		getline(cin,s);
