@@ -20,8 +20,8 @@
 int total = 0;
 
 int main(int argc, char const *argv[]) {
-    struct sockaddr_in s_addr, d_addr;
-    struct sockaddr_in addr;
+    struct sockaddr_in s_addr, d_addr;              //soure and destination address will be stored here.
+    struct sockaddr_in addr,caddr;
      int rsfd, n, len; char buffer[MAX], buf[MAX];
     rsfd = socket(AF_INET, SOCK_RAW, 109);
     if(rsfd < 0) {
@@ -31,7 +31,7 @@ int main(int argc, char const *argv[]) {
     memset((char *)&addr, 0, sizeof addr);
     addr.sin_family = AF_INET;
    // addr.sin_port = 8001;
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    addr.sin_addr.s_addr = inet_addr("127.0.0.12");                  //givinng the ip address
     if(bind(rsfd, (struct sockaddr*)&addr, sizeof addr) < 0) {
         perror("bind() ");
         exit(2);
@@ -41,8 +41,8 @@ int main(int argc, char const *argv[]) {
     printf("ready\n");
     while(1) {
         len = sizeof(addr);
-        if(recvfrom(rsfd, buffer, MAX, 0, (struct sockaddr *)&addr,(socklen_t*) &len) < 0) {
-            perror("sendto() ");
+        if(recvfrom(rsfd, buffer, MAX, 0, (struct sockaddr *)&caddr,(socklen_t*) &len) < 0) {
+            perror("recvfrom() ");
         }
 	printf("Packet Count %d \n\n", ++total);
     iph = (struct iphdr *) buffer;
@@ -64,6 +64,7 @@ int main(int argc, char const *argv[]) {
 	printf("------------------------------------\n");
 	strcpy(buf, buffer+iphdrlen);
 	printf("\tMessage\n %s\n", buf);
+    //sendto(rsfd, "server_message", 14, 0, (struct sockaddr *)&caddr, sizeof caddr);
         sleep(2);
     }
     return 0;

@@ -27,8 +27,8 @@ void create_ip_header(struct iphdr* ip)
 	ip->ttl=htons(64);
 	ip->id=htons(1234);
 	ip->protocol=protocol_used;
-	ip->saddr=inet_addr("127.0.0.3");
-	ip->daddr=inet_addr("127.0.0.5");
+	ip->saddr=inet_addr("127.0.0.1");
+	ip->daddr=inet_addr("127.0.0.1");
 	ip->check=0;
 
 }
@@ -59,30 +59,29 @@ int main(int argc, char const *argv[])
     {
     	char buffer[BUFFER_LEN];
     	socklen_t size=sizeof(naddr);
-    	char msg[BUFFER_LEN];
+    	char msg[BUFFER_LEN];                  // to store message to sent.
     	printf("Enter the message : ");
     	scanf("%s",msg);
-    	msglen = strlen(msg);
-    	char packet[BUFFER_LEN];
+    	msglen = strlen(msg);                  //length of the message
+    	char packet[BUFFER_LEN];               // packet to be sent
     	struct iphdr* iph = (struct iphdr*)packet;
-    	create_ip_header(iph);
+    	create_ip_header(iph);                 //create your own ip packet
     	printf("Message to be sent : %s \n",msg );
     	//strcat(packet,msg);
     	strcpy(packet+MIN_IP_PACKET_LEN,msg);
-    	printf("Sending packet : %s \n",packet );
+    	//printf("Sending packet : %s \n",packet );
     	printf("Sending packet from IP : %s to IP : %s \n",inet_ntoa(*(in_addr*)&iph->saddr),inet_ntoa(*(in_addr*)&iph->daddr));
-    	struct timeval stv,etv; struct timezone tz;
-        gettimeofday(&stv,&tz);
+    	//struct timeval stv,etv; struct timezone tz;
+       // gettimeofday(&stv,&tz);
         sendto(rsfd,packet,BUFFER_LEN,0,(struct sockaddr*)&server,sizeof(server));
     	recvfrom(rsfd,buffer,BUFFER_LEN,0,(struct sockaddr*)&naddr,&size);
-        gettimeofday(&etv,&tz);
-        printf("Message received form server at IP : %s\n",inet_ntoa(naddr.sin_addr));
-        printf("Message : %s \n",buffer );
-        int delay = etv.tv_usec-stv.tv_usec;
-        printf("Time delay = %d microseconds \n",delay );
+        //gettimeofday(&etv,&tz);
+        printf("Message received from server at IP : %s\n",inet_ntoa(naddr.sin_addr));      //print the server ip
+         //iph=(struct iphdr*)buffer;
+        printf("Message : %s \n",buffer);       //messasge recieved by the client
+        //int delay = etv.tv_usec-stv.tv_usec;
+        //printf("Time delay = %d microseconds \n",delay );
         
     }
-    
-
-	return 0;
+    return 0;
 }

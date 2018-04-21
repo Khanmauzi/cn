@@ -57,6 +57,11 @@ int main(int argc, char const *argv[])
     {
         printf("Socket creation failed \n"); perror("socket\n"); return 1;
     }
+    struct sockaddr_in server;
+    bzero(&server,sizeof server);
+    server.sin_family=AF_INET;
+    server.sin_addr.s_addr=inet_addr("127.0.0.1");
+    bind(rsfd,(struct sockaddr*)&server,sizeof(server));
     char buffer[BUFFER_LEN];
     while(1)
     {
@@ -67,8 +72,9 @@ int main(int argc, char const *argv[])
         if((recvfrom(rsfd,buffer,1024,0,(sockaddr*)&cli_addr,&size))==-1){
             continue;
         } 
-        printf("Buffer received : %s \n",buffer );
+      //  printf("Buffer received : %s \n",buffer );
         printf("Server sending : %s \n",reply );
+        cout<<"client ip :"<<inet_ntoa(cli_addr.sin_addr)<<endl;
         sendto(rsfd,reply,BUFFER_LEN,0,(struct sockaddr*)&cli_addr,size);
         struct iphdr *ip=(struct iphdr*)buffer;
         print_ip_header(ip);

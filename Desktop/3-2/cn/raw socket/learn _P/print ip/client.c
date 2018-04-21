@@ -17,7 +17,7 @@
 #define MAX 100
 
 int main(int argc, char const *argv[]) {
-    struct sockaddr_in addr; 
+    struct sockaddr_in addr,client; 
     int rsfd, n=1, len; 
     char buffer[MAX];
     rsfd = socket(AF_INET, SOCK_RAW, 109);
@@ -29,12 +29,14 @@ int main(int argc, char const *argv[]) {
     bzero(&addr,sizeof(addr));
     addr.sin_family = AF_INET;
     //addr.sin_port = 9001;
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    
+    addr.sin_addr.s_addr = inet_addr("127.0.0.12");
+    char ans[100];
     while(1) {
         if(sendto(rsfd, "Data_isthis", 11, 0, (struct sockaddr *)&addr, sizeof addr) < 0) {
             perror("sendto() ");
         }
+        //recvfrom(rsfd,ans,100,0,(struct sockaddr*)&client,(socklen_t*)&len);
+        //printf("Message\n %s\n", ans);
 	    printf("Data Sent times : %d \n", n++);
         sleep(2);
     }

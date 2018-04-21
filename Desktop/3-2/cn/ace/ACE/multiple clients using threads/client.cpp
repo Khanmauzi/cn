@@ -18,15 +18,18 @@ int main()
 
 	connection_obj.connect(cli_stream,server);
 	perror("connect ");
+	ACE_HANDLE fd=cli_stream.get_handle();
 
 	while(1)
 	{
 		char buf[100],ans[100];
 		cin.getline(buf,100,'\n');
 		cout<<buf<<endl;
-		cli_stream.send_n(buf,100,0);
+		//cli_stream.send_n(buf,100,0);
+		send(fd,buf,strlen(buf)+1,0);
 		perror("sending ");
-		cli_stream.recv_n(ans,100,0);
+		//cli_stream.recv_n(ans,100,0);
+		recv(fd,ans,100,0);
 		cout<<"Result from client : "<<ans<<endl;
 	}
 	return 0;

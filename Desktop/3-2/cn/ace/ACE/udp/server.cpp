@@ -14,6 +14,7 @@ int main()
 {
 	ACE_INET_Addr server("127.0.0.1:3000"),client;
 	ACE_SOCK_Dgram data(server);
+
 	while(1)
 	{
 		char buf[100],ans[100];
@@ -24,5 +25,6 @@ int main()
 		ans[i]='\0';
 		data.send(ans,100,client);
 	}
+
 	return 0;
 }

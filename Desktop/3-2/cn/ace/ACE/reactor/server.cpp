@@ -11,10 +11,12 @@
 #include <pthread.h>
 using namespace std;
 
-class Myio : public ACE_Event_Handler
-{
+class Myio : public ACE_Event_Handler{
 	public :
-	Myio(){cout<<"constructor\n";}
+	Myio()
+	{
+		cout<<"constructor\n";
+	}
 
 	int handle_input(ACE_HANDLE)
 	{
@@ -26,17 +28,25 @@ class Myio : public ACE_Event_Handler
 		this->cli_stream.send_n(ans,100,0);
 		return 0;
 	}
-	ACE_HANDLE get_handle()const{return this->cli_stream.get_handle();}
-	ACE_SOCK_Stream & peer_i(){return this->cli_stream;}
+
+	ACE_HANDLE get_handle()const{
+		return this->cli_stream.get_handle();
+	}
+
+	ACE_SOCK_Stream & peer_i(){
+		return this->cli_stream;
+	}
 
 	private :
 	ACE_SOCK_Stream cli_stream;
 };
 
-class Myaccpetclass : public ACE_Event_Handler
-{
+class Myaccpetclass : public ACE_Event_Handler{
 	public : 
-	Myaccpetclass(ACE_INET_Addr &server){this->client_acceptor.open(server);}
+	Myaccpetclass(ACE_INET_Addr &server)
+	{
+		this->client_acceptor.open(server);
+	}
 
 	int handle_input(ACE_HANDLE)
 	{
@@ -49,7 +59,9 @@ class Myaccpetclass : public ACE_Event_Handler
 		return 0;
 	}
 
-	ACE_HANDLE get_handle()const{return this->client_acceptor.get_handle();}
+	ACE_HANDLE get_handle()const{
+		return this->client_acceptor.get_handle();
+	}
 
 	private : 
 	ACE_SOCK_Acceptor client_acceptor;
@@ -67,5 +79,4 @@ int main()
 		cout<<"again\n";
 	}
 	return 0;
-	
 }

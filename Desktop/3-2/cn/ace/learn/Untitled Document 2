@@ -1,0 +1,44 @@
+// Mojammil
+
+#include "ace/SOCK_Acceptor.h"
+#include "ace/SOCK_Stream.h"
+#include "ace/LSOCK_Stream.h"
+#include "ace/LSOCK_Acceptor.h"
+#include "ace/LSOCK.h"
+#include "ace/OS.h"
+#include<iostream>
+using namespace std;
+int main(){
+	ACE_OS::unlink("/tmp/foo");				//path to send the file descriptor
+	cout<<"Stuff"<<endl;			
+	ACE_LSOCK_Stream stream;
+	ACE_LSOCK_Acceptor acceptor;
+    acceptor.open((ACE_UNIX_Addr)"/tmp/foo");
+	acceptor.accept(stream);
+
+
+
+	ACE_INET_Addr s("127.0.0.1:5000"),client;	//server address
+	ACE_SOCK_Stream cli_stream;
+	ACE_SOCK_Acceptor client_acceptor(s);
+	//ACE_HANDLE fd=cli_stream.get_handle();
+	//cout<<"recieved fd from the client "<<endl;
+	//stream.send_handle(fd);
+	//cout<<"fd is sent "<<endl;
+	char *check="hello client";
+	while(1){
+	client_acceptor.accept(cli_stream,&client);
+	perror("accept ");
+	int t=fork();
+	if(t==0){
+		ACE_HANDLE fd=cli_stream.get_handle();
+		send(fd,check,strlen(check)+1,0);
+		cout<<"recieved fd from the client "<<endl;
+		stream.send_handle(fd);
+		cout<<"fd is sent "<<endl;
+	}
+
+	}
+}
+
+

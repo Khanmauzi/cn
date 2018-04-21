@@ -32,7 +32,7 @@ __u32 	daddr
 int msgcount =0;
 int main(int argc ,char *argv[])
 {
-	struct sockaddr_in addr;
+	struct sockaddr_in addr,client;
 	int rsfd = socket(AF_INET, SOCK_RAW, 161);
     if(rsfd < 0) {
         perror("socket() ");
@@ -41,21 +41,25 @@ int main(int argc ,char *argv[])
    
    
     memset((char *)&addr, 0, sizeof addr);
-    addr.sin_family = AF_INET;
+  //  addr.sin_family = AF_INET;
     //addr.sin_port = 8001;
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    //addr.sin_addr.s_addr = inet_addr("127.0.0.1");
    // if(bind(rsfd, (struct sockaddr*)&addr, sizeof addr) < 0) {
    //     perror("bind() ");
    //     exit(1);
   //  }
-    char buffer[MAX];char buf[MAX];
-    struct iphdr * iph; unsigned int header_length;
+    char buffer[MAX];
+    char buf[MAX];
+    struct iphdr * iph; 
+    unsigned int header_length;
     printf("waitng for packets\n");
+    char reply[]="message by server ";
     while(1) {
         int len = sizeof(addr);
-        if(recvfrom(rsfd, buffer, MAX, 0, (struct sockaddr *)&addr, (socklen_t*)&len) < 0) {
-            perror("sendto() ");
+        if(recvfrom(rsfd, buffer, MAX, 0, (struct sockaddr *)&client, (socklen_t*)&len) < 0) {
+            perror("recvfrom() ");
         }
+   // cout<<"client ip : "<<inet_ntoa(client.sin_addr)<<endl;
 	printf("Packet Count is now %d \n\n", ++msgcount);
     iph = (struct iphdr *) buffer;
     struct sockaddr_in s_addr, d_addr;
@@ -77,6 +81,12 @@ int main(int argc ,char *argv[])
 	printf("------------------------------------\n");
 	strcpy(buf, buffer+header_length);
 	printf("Message : %s\n", buf);
+
+
+    //cout<<"client ip : "<<inet_ntoa(client.sin_addr)<<endl;
+    sendto(rsfd,reply,sizeof(reply),0,(struct sockaddr*)&client,sizeof client);
+    perror("sending");
+    //cout<<"client ip : "<<inet_ntoa(client.sin_addr)<<endl;
     sleep(1);
     }
     return 0;

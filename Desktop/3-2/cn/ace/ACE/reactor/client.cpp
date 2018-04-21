@@ -23,7 +23,7 @@ int main()
 	{
 		char buf[100],ans[100];
 		cin.getline(buf,100,'\n');
-		cout<<buf<<endl;
+		//cout<<buf<<endl;
 		cli_stream.send_n(buf,100,0);
 		perror("sending ");
 		cli_stream.recv_n(ans,100,0);

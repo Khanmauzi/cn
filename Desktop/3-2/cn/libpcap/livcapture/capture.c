@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
         printf("Error finding device: %s\n", error_buffer);
         return 1;
     }
-
+   printf("device name is :%s \n",device);
     /* Open device for live capture */
     handle = pcap_open_live(
             device,
